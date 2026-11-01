@@ -1,0 +1,19 @@
+{
+  "lang_name": "Français",
+  "start": "👋 Salut {name} !\n\nJe suis Maktabati 📚 — envoie-moi le titre d'un livre et je te donne le lien PDF ici même.\n\n💌 Un souci ou une suggestion : @vxgix",
+  "help": "📖 <b>Maktabati — commandes</b>\n/start — présentation\n/help — ce message\n/lang — changer de langue\n\n💬 Envoie un titre et je te donne le lien PDF !\n\n💌 Support : @vxgix",
+  "choose_lang": "🌍 اختر لغتك / Choisissez votre langue / Choose your language:",
+  "lang_saved": "✅ Langue réglée sur Français !\n\n💬 Envoie-moi un titre quand tu veux — je te donne le lien PDF.",
+  "searching": "🔎 Je cherche « {title} »…",
+  "results_header": "📚 <b>Meilleurs résultats pour « {title} »</b>",
+  "no_results": "😕 Rien de gratuit trouvé pour « {title} ».\nEssaie une autre formulation ou une autre langue.",
+  "error_generic": "⚠️ Petit souci de recherche — réessaie dans un instant.",
+  "pick_below": "Choisis un numéro ci-dessous pour sélectionner ton livre 👇",
+  "expired": "⌛ Résultats expirés — relance une recherche.",
+  "picked": "✅ Tu as choisi : « {title} »\n📚 {source}\n\n{pdf_note}\n\n💌 Support : @vxgix",
+  "picked_pdf": "🔗 Lien PDF direct : {url}",
+  "picked_page": "🌐 Page du livre (le PDF et d'autres éditions s'y trouvent) : {url}",
+  "via_translation": "🌐 Nous avons aussi cherché : « {query} »",
+  "err_no_pdf": "😕 Pas de PDF téléchargeable pour ce résultat — choisis-en un autre.",
+  "err_no_pdf_page": "😕 Impossible de vérifier un lien PDF direct pour ce résultat.\n🌐 Mais tu trouveras le livre et son fichier ici : {url}"
+}

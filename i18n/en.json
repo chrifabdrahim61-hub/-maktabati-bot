@@ -1,0 +1,19 @@
+{
+  "lang_name": "English",
+  "start": "👋 Hello {name}!\n\nI'm Maktabati 📚 — send me any book title and I'll find it and give you the PDF link right here.\n\n💌 Any issue or suggestion: @vxgix",
+  "help": "📖 <b>Maktabati — commands</b>\n/start — introduction\n/help — this message\n/lang — change language\n\n💬 Send a book title and I'll give you the PDF link!\n\n💌 Support: @vxgix",
+  "choose_lang": "🌍 اختر لغتك / Choisissez votre langue / Choose your language:",
+  "lang_saved": "✅ Language set to English!\n\n💬 Send me a book title any time — I'll give you the PDF link.",
+  "searching": "🔎 Searching for «{title}»…",
+  "results_header": "📚 <b>Top results for «{title}»</b>",
+  "no_results": "😕 Nothing free found for «{title}».\nTry another wording or another language.",
+  "error_generic": "⚠️ Search hiccup — please try again in a moment.",
+  "pick_below": "Pick a number below to choose your book 👇",
+  "expired": "⌛ Results expired — search again.",
+  "picked": "✅ You picked: «{title}»\n📚 {source}\n\n{pdf_note}\n\n💌 Support: @vxgix",
+  "picked_pdf": "🔗 Direct PDF link: {url}",
+  "picked_page": "🌐 Book page (the PDF and other editions live there): {url}",
+  "via_translation": "🌐 Also searched for: «{query}»",
+  "err_no_pdf": "😕 No downloadable PDF for this result — pick another.",
+  "err_no_pdf_page": "😕 Couldn't verify a direct PDF link for this result.\n🌐 But you'll find the book and its file here: {url}"
+}

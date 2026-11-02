@@ -1,7 +1,7 @@
 {
   "lang_name": "English",
-  "start": "👋 Hello {name}!\n\nI'm Maktabati 📚 — send me any book title and I'll find it and give you the PDF link right here.\n\n💌 Any issue or suggestion: @vxgix",
-  "help": "📖 <b>Maktabati — commands</b>\n/start — introduction\n/help — this message\n/lang — change language\n\n💬 Send a book title and I'll give you the PDF link!\n\n💌 Support: @vxgix",
+  "start": "👋 Hello {name}!\n\nI'm Maktabati 📚 — send me any book title and I'll find it and give you the PDF link right here.\n\n💳 You have 5 free searches — +2 more every day and +1 per friend you invite (/credits).\n\n💌 Any issue or suggestion: @vxgix",
+  "help": "📖 <b>Maktabati — commands</b>\n/start — introduction\n/help — this message\n/lang — change language\n/credits — your balance & invite link\n\n💬 Send a book title and I'll give you the PDF link!\n\n💌 Support: @vxgix",
   "choose_lang": "🌍 اختر لغتك / Choisissez votre langue / Choose your language:",
   "lang_saved": "✅ Language set to English!\n\n💬 Send me a book title any time — I'll give you the PDF link.",
   "searching": "🔎 Searching for «{title}»…",
@@ -19,5 +19,12 @@
   "join_channel": "📢 One thing before I search: join our channel 🎁\n• Tap «🎁 Join the channel» below\n• After joining, tap «✅ Check»\nand your search continues automatically.",
   "sub_join_btn": "🎁 Join the channel",
   "sub_check_btn": "✅ Check subscription",
-  "join_ok": "✅ Verified — welcome to Maktabati! 🎉\nSend any book title and I'll start searching."
+  "join_ok": "✅ Verified — welcome to Maktabati! 🎉\nSend any book title and I'll start searching.",
+  "out_of_credits": "😞 You're out of credits!\n\n🎁 Invite friends with YOUR link — +1 credit for every friend who starts the bot:\n{link}\n\n🕐 Or wait for the free refill: +2 credits every 24 h (next one in ~{hours} h).",
+  "credits_msg": "💳 <b>Credits: {n}</b>\n\n🔎 A successful search costs 1 credit (searches with no results are free)\n🕐 +2 credits free every 24 h\n🎁 +1 credit for every friend who starts the bot via your link:\n{link}",
+  "credits_owner": "👑 Owner account — unlimited credits, no gates.",
+  "share_btn": "📤 Share my link",
+  "share_text": "📚 This Telegram bot finds any book's free PDF in seconds — Maktabati:",
+  "ref_bonus": "🎁 +1 credit! {name} just started Maktabati via your link.\n💳 Balance: {n}",
+  "balance_left": "💳 Credits left: {n}"
 }

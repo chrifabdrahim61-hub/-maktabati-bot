@@ -1,7 +1,7 @@
 {
   "lang_name": "Français",
-  "start": "👋 Salut {name} !\n\nJe suis Maktabati 📚 — envoie-moi le titre d'un livre et je te donne le lien PDF ici même.\n\n💌 Un souci ou une suggestion : @vxgix",
-  "help": "📖 <b>Maktabati — commandes</b>\n/start — présentation\n/help — ce message\n/lang — changer de langue\n\n💬 Envoie un titre et je te donne le lien PDF !\n\n💌 Support : @vxgix",
+  "start": "👋 Salut {name} !\n\nJe suis Maktabati 📚 — envoie-moi le titre d'un livre et je te donne le lien PDF ici même.\n\n💳 Tu as 5 recherches gratuites — +2 chaque jour et +1 par ami invité (/credits).\n\n💌 Un souci ou une suggestion : @vxgix",
+  "help": "📖 <b>Maktabati — commandes</b>\n/start — présentation\n/help — ce message\n/lang — changer de langue\n/credits — solde et lien d'invitation\n\n💬 Envoie un titre et je te donne le lien PDF !\n\n💌 Support : @vxgix",
   "choose_lang": "🌍 اختر لغتك / Choisissez votre langue / Choose your language:",
   "lang_saved": "✅ Langue réglée sur Français !\n\n💬 Envoie-moi un titre quand tu veux — je te donne le lien PDF.",
   "searching": "🔎 Je cherche « {title} »…",
@@ -19,5 +19,12 @@
   "join_channel": "📢 Une chose avant de chercher : rejoins notre canal 🎁\n• Appuie sur « 🎁 Rejoindre le canal » ci-dessous\n• Après avoir rejoint, appuie sur « ✅ Vérifier »\net ta recherche continue automatiquement.",
   "sub_join_btn": "🎁 Rejoindre le canal",
   "sub_check_btn": "✅ Vérifier l'abonnement",
-  "join_ok": "✅ Vérifié — bienvenue sur Maktabati ! 🎉\nEnvoie un titre de livre et je lance la recherche."
+  "join_ok": "✅ Vérifié — bienvenue sur Maktabati ! 🎉\nEnvoie un titre de livre et je lance la recherche.",
+  "out_of_credits": "😞 Tu n'as plus de crédits !\n\n🎁 Invite tes amis avec TON lien — +1 crédit pour chaque ami qui lance le bot :\n{link}\n\n🕐 Ou attends la recharge gratuite : +2 crédits toutes les 24 h (la prochaine dans ~{hours} h).",
+  "credits_msg": "💳 <b>Crédits : {n}</b>\n\n🔎 Une recherche réussie coûte 1 crédit (les recherches sans résultat sont gratuites)\n🕐 +2 crédits offerts toutes les 24 h\n🎁 +1 crédit pour chaque ami qui démarre via ton lien :\n{link}",
+  "credits_owner": "👑 Compte du propriétaire — crédits illimités, aucun blocage.",
+  "share_btn": "📤 Partager mon lien",
+  "share_text": "📚 Ce bot Telegram trouve le PDF de n'importe quel livre en quelques secondes — Maktabati :",
+  "ref_bonus": "🎁 +1 crédit ! {name} vient de lancer Maktabati via ton lien.\n💳 Solde : {n}",
+  "balance_left": "💳 Crédits restants : {n}"
 }

@@ -18,6 +18,9 @@ User requests baked in here:
   • Step 6d force-subscribe: non-members of the channel get the join prompt
     instead of results; after they join and tap «✅ Check» their pending
     search resumes automatically.
+  • Step 6e credits: a successful search costs 1 credit (misses are free).
+    Out-of-credit users get their personal invite link instead of results;
+    the balance is shown under the results header. Owner exempt.
 PDF delivery on tap is in handlers/download.py (Step 5/6b).
 """
 import asyncio
@@ -28,6 +31,7 @@ from telegram import Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackQueryHandler, ContextTypes, MessageHandler, filters
 
+from bot.credits import charge_on_success, ensure_credits
 from bot.handlers.subscribe import ensure_subscribed, is_member
 from bot.keyboards import results_keyboard
 from core.nl import clean_query, search_variants
@@ -114,6 +118,11 @@ async def do_search(context: ContextTypes.DEFAULT_TYPE, chat_id: int, user_id: i
     # Natural-language pass: «ابي كتاب فن الحرب شكرا» → «فن الحرب»
     cleaned = clean_query(raw) or raw
 
+    # Credits gate (Step 6e): lazy +2/24h refill; broke users get their
+    # invite link instead of a search. The owner always passes.
+    if not await ensure_credits(context, chat_id, user_id):
+        return
+
     bot = context.bot
     status = await bot.send_message(chat_id, t(lang, "searching", title=raw[:80]))
 
@@ -123,12 +132,17 @@ async def do_search(context: ContextTypes.DEFAULT_TYPE, chat_id: int, user_id: i
         await status.edit_text(t(lang, "no_results", title=raw[:80]))
         return
 
+    # Found something → 1 credit (owner exempt). A miss cost nothing.
+    left = await charge_on_success(context, user_id)
+
     cache_id, markup = results_keyboard(ranked)
     _cache_put(context, ranked, cache_id)
 
     lines = [t(lang, "results_header", title=raw[:60])]
     if translated_mode:
         lines.append(t(lang, "via_translation", query=used[:60]))
+    if left is not None:
+        lines.append(t(lang, "balance_left", n=left))
     lines.append("")
     for i, r in enumerate(ranked, 1):
         year = f" ({r.year})" if r.year else ""

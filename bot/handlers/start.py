@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes
 
 import bot.keyboards as keyboards
+from bot.credits import is_owner, parse_ref
 from bot.handlers.subscribe import check_and_cache, join_keyboard
 from db import repo
 from i18n.detect import from_telegram_locale
@@ -24,10 +25,17 @@ async def resolve_lang(update: Update, context: ContextTypes.DEFAULT_TYPE) -> st
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """/start — greet in the user's language; offer the language menu on first contact."""
+    """/start — greet in the user's language; offer the language menu on first
+    contact; process referral deep-links (t.me/<bot>?start=ref<user_id>)."""
     user = update.effective_user
     db = context.bot_data["db"]
-    await repo.upsert_user(db, user.id, user.first_name, user.username)
+
+    ref = parse_ref(context.args)
+    if ref == user.id:  # nobody earns credits by inviting themselves
+        ref = None
+    created = await repo.upsert_user(
+        db, user.id, user.first_name, user.username, referred_by=ref
+    )
 
     lang = await resolve_lang(update, context)
     await update.message.reply_text(t(lang, "start", name=user.first_name or "reader"))
@@ -40,6 +48,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text(
             t(lang, "join_channel"), reply_markup=join_keyboard(lang)
         )
+
+    # Referral reward (Step 6e): +1 credit to the friend whose link brought
+    # this NEW user in. Granted on first /start even if the invitee then hits
+    # the channel gate — the invitation itself already happened.
+    if created and ref and not is_owner(user.id):
+        balance = await repo.reward_referral(db, ref, user.id)
+        if balance is not None:
+            ref_lang = await repo.get_lang(db, ref) or "en"
+            try:
+                await context.bot.send_message(
+                    ref,
+                    t(ref_lang, "ref_bonus", name=user.first_name or "A reader", n=balance),
+                )
+            except Exception as exc:  # referrer blocked the bot — never crash onboarding
+                logger.info("Referral notify to %s failed: %s", ref, exc)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

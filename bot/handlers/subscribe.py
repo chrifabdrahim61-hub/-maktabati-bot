@@ -74,6 +74,8 @@ async def is_member(bot, user_id: int) -> bool:
 
 async def check_and_cache(context: ContextTypes.DEFAULT_TYPE, user_id: int) -> bool:
     """Membership with a process-lifetime cache (one API call per user per run)."""
+    if user_id == config.OWNER_ID:
+        return True  # the operator is exempt — it's their own channel
     ok_set = context.bot_data.setdefault("sub_ok", set())
     if user_id in ok_set:
         return True

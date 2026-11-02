@@ -13,7 +13,14 @@ from bot.handlers.lang import lang_handler, lang_pick_handler
 from bot.credits import credits_handler
 from bot.handlers.search import sub_check_handler, text_handler
 from bot.handlers.start import help_handler, start_handler
-from bot.handlers.support import payment_handler, precheckout_handler, stars_handler
+from bot.handlers.support import (
+    build_commands,
+    donate_handler,
+    payment_handler,
+    precheckout_handler,
+    privacy_handler,
+    stars_handler,
+)
 from db.database import close_db, init_db
 from utils.logging import setup_logging
 
@@ -40,6 +47,17 @@ async def post_init(app: Application) -> None:
     except Exception as exc:  # network hiccup must never block boot
         logger.warning("Could not set bot profile: %s", exc)
 
+    # The ≡ command-menu button next to the input field: start, help, lang,
+    # credits, donate, privacy — localized so it shows in the user's language
+    # (default list in English + full lists for Arabic and French clients).
+    try:
+        await app.bot.set_my_commands(build_commands("en"))
+        await app.bot.set_my_commands(build_commands("ar"), language_code="ar")
+        await app.bot.set_my_commands(build_commands("fr"), language_code="fr")
+        logger.info("Command menu set (en / ar / fr)")
+    except Exception as exc:  # never block boot over cosmetics
+        logger.warning("Could not set the command menu: %s", exc)
+
 
 async def post_shutdown(app: Application) -> None:
     await close_db(app)
@@ -48,7 +66,7 @@ async def post_shutdown(app: Application) -> None:
 
 def main() -> None:
     setup_logging()
-    logger.info("Starting Maktabati (Step 6f — Stars donations, credits & referrals, 4 sources, NL+cross-language search, channel gate)…")
+    logger.info("Starting Maktabati (Step 6f — Stars donations + support button + command menu, credits & referrals, 4 sources, NL+cross-language search, channel gate)…")
 
     app = (
         Application.builder()
@@ -66,6 +84,8 @@ def main() -> None:
     app.add_handler(download_pick_handler)
     app.add_handler(sub_check_handler)
     app.add_handler(credits_handler)
+    app.add_handler(donate_handler)
+    app.add_handler(privacy_handler)
     app.add_handler(stars_handler)
     app.add_handler(precheckout_handler)   # must exist before any invoice is paid
     app.add_handler(payment_handler)

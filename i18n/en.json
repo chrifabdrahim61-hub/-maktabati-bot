@@ -1,7 +1,7 @@
 {
   "lang_name": "English",
   "start": "👋 Hello {name}!\n\nI'm Maktabati 📚 — send me any book title and I'll find it and give you the PDF link right here.\n\n💳 You have 5 free searches — +2 more every day and +1 per friend you invite (/credits).\n\n💌 Any issue or suggestion: @vxgix",
-  "help": "📖 <b>Maktabati — commands</b>\n/start — introduction\n/help — this message\n/lang — change language\n/credits — your balance & invite link\n\n💬 Send a book title and I'll give you the PDF link!\n\n💌 Support: @vxgix",
+  "help": "📖 <b>Maktabati — commands</b>\n/start — introduction\n/help — this message\n/lang — change language\n/credits — your balance & invite link\n/donate — support with Telegram Stars\n/privacy — privacy policy\n\n💬 Send a book title and I'll give you the PDF link!\n\n💌 Support: @vxgix",
   "choose_lang": "🌍 اختر لغتك / Choisissez votre langue / Choose your language:",
   "lang_saved": "✅ Language set to English!\n\n💬 Send me a book title any time — I'll give you the PDF link.",
   "searching": "🔎 Searching for «{title}»…",
@@ -27,11 +27,18 @@
   "share_text": "📚 This Telegram bot finds any book's free PDF in seconds — Maktabati:",
   "ref_bonus": "🎁 +1 credit! {name} just started Maktabati via your link.\n💳 Balance: {n}",
   "balance_left": "💳 Credits left: {n}",
-  "support_heart": "🤍",
+  "support_heart": "🤍 Support Maktabati",
   "donate_menu": "🤍 Support Maktabati\n\nEvery search, every PDF — free for everyone. Your Stars keep it that way 🙏\n\nPick an amount:",
   "donate_title": "Support Maktabati 🤍",
   "donate_desc": "A {n} ⭐ donation — keeps Maktabati free for everyone",
   "donate_thanks": "🤍 Thank you, {name}! Your {n} ⭐ keeps Maktabati free and growing. 🙏",
   "donate_err": "⚠️ Couldn't open the payment — please try again in a moment.",
-  "close_btn": "✖️"
+  "close_btn": "✖️",
+  "privacy_text": "🛡 <b>Privacy policy — Maktabati</b>\n\n<b>What we store:</b>\n• your Telegram ID, name and @username (to run your account, credits and referrals)\n• your language choice and credit balance\n• who invited you (referral credit only)\n• donation records (the amount only — payment details never reach us)\n\n<b>What we never do:</b>\n• we don't see or store your phone number\n• we don't sell or share your data with anyone\n• search queries are processed in memory, never archived\n\n<b>Searches</b> go to free public libraries: Internet Archive, Open Library, Google Books, Project Gutenberg.\n\nTo delete your data, message support: @vxgix",
+  "cmd_start": "🚀 Start / restart the bot",
+  "cmd_help": "📖 How to use Maktabati",
+  "cmd_lang": "🌍 Change language",
+  "cmd_credits": "💳 Your credits & invite link",
+  "cmd_donate": "🤍 Support with Telegram Stars",
+  "cmd_privacy": "🛡 Privacy policy"
 }

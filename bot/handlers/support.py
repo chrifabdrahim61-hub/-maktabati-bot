@@ -4,20 +4,29 @@
 setting a small button of support the bot with a white heart when clicking
 it it shows donations with stars 25/50/75/100 ect»
 
+Revision (user): «in the output i dont want just a heart a text too» — the
+button now reads 🤍 Support Maktabati (support_heart, localized); and
+«i want the bot have a small commands list button which contains start,
+credits, donate and necessary things» — build_commands() + set_my_commands()
+in main.py puts /start /help /lang /credits /donate /privacy into the ≡
+menu button, /donate opens this menu directly, /privacy shows the policy.
+
 Flow: every delivered book message (the verified PDF link or the source-page
-fallback in handlers/download.py) carries a small 🤍 button. Tapping it opens
-the donation menu with one ⭐ button per STAR_TIERS entry (25/50/75/100/250).
-A tier tap sends a Telegram Stars invoice — currency "XTR", which needs NO
-payment provider token; Telegram renders the in-chat payment sheet itself.
-PreCheckoutQuery is auto-approved, and a successful payment earns a trilingual
-thank-you plus a row in the donations table (for the later /stats step).
+fallback in handlers/download.py) carries the small 🤍 text button. Tapping
+it opens the donation menu with one ⭐ button per STAR_TIERS entry
+(25/50/75/100/250). A tier tap sends a Telegram Stars invoice — currency
+"XTR", which needs NO payment provider token; Telegram renders the in-chat
+payment sheet itself. PreCheckoutQuery is auto-approved, and a successful
+payment earns a trilingual thank-you plus a row in the donations table
+(for the later /stats step).
 """
 import logging
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice, Update
+from telegram import BotCommand, InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice, Update
 from telegram.error import TelegramError
 from telegram.ext import (
     CallbackQueryHandler,
+    CommandHandler,
     ContextTypes,
     MessageHandler,
     PreCheckoutQueryHandler,
@@ -102,6 +111,40 @@ async def on_stars(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             pass
 
 
+async def donate_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/donate — open the Stars donation menu directly, in their language."""
+    user = update.effective_user
+    db = context.bot_data["db"]
+    lang = await repo.get_lang(db, user.id) or "en"
+    await update.message.reply_text(
+        t(lang, "donate_menu"), reply_markup=donate_keyboard(lang)
+    )
+    logger.info("User %s opened /donate", user.id)
+
+
+async def privacy_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/privacy — what the bot stores, what it never does (trilingual)."""
+    user = update.effective_user
+    db = context.bot_data["db"]
+    lang = await repo.get_lang(db, user.id) or "en"
+    await update.message.reply_text(
+        t(lang, "privacy_text"), parse_mode="HTML", disable_web_page_preview=True
+    )
+
+
+def build_commands(lang: str) -> list[BotCommand]:
+    """The localized command list behind the ≡ menu button next to the
+    input field — Telegram shows the matching language automatically."""
+    return [
+        BotCommand("start", t(lang, "cmd_start")),
+        BotCommand("help", t(lang, "cmd_help")),
+        BotCommand("lang", t(lang, "cmd_lang")),
+        BotCommand("credits", t(lang, "cmd_credits")),
+        BotCommand("donate", t(lang, "cmd_donate")),
+        BotCommand("privacy", t(lang, "cmd_privacy")),
+    ]
+
+
 async def precheckout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Approve every Stars checkout — nothing to validate for donations."""
     await update.pre_checkout_query.answer(ok=True)
@@ -121,5 +164,7 @@ async def on_payment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 
 stars_handler = CallbackQueryHandler(on_stars, pattern=r"^stars:")
+donate_handler = CommandHandler("donate", donate_command)
+privacy_handler = CommandHandler("privacy", privacy_command)
 precheckout_handler = PreCheckoutQueryHandler(precheckout)
 payment_handler = MessageHandler(filters.SUCCESSFUL_PAYMENT, on_payment)

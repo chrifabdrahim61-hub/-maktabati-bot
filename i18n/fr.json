@@ -15,5 +15,9 @@
   "picked_page": "🌐 Page du livre (le PDF et d'autres éditions s'y trouvent) : {url}",
   "via_translation": "🌐 Nous avons aussi cherché : « {query} »",
   "err_no_pdf": "😕 Pas de PDF téléchargeable pour ce résultat — choisis-en un autre.",
-  "err_no_pdf_page": "😕 Impossible de vérifier un lien PDF direct pour ce résultat.\n🌐 Mais tu trouveras le livre et son fichier ici : {url}"
+  "err_no_pdf_page": "😕 Impossible de vérifier un lien PDF direct pour ce résultat.\n🌐 Mais tu trouveras le livre et son fichier ici : {url}",
+  "join_channel": "📢 Une chose avant de chercher : rejoins notre canal 🎁\n• Appuie sur « 🎁 Rejoindre le canal » ci-dessous\n• Après avoir rejoint, appuie sur « ✅ Vérifier »\net ta recherche continue automatiquement.",
+  "sub_join_btn": "🎁 Rejoindre le canal",
+  "sub_check_btn": "✅ Vérifier l'abonnement",
+  "join_ok": "✅ Vérifié — bienvenue sur Maktabati ! 🎉\nEnvoie un titre de livre et je lance la recherche."
 }

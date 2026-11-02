@@ -15,5 +15,9 @@
   "picked_page": "🌐 Book page (the PDF and other editions live there): {url}",
   "via_translation": "🌐 Also searched for: «{query}»",
   "err_no_pdf": "😕 No downloadable PDF for this result — pick another.",
-  "err_no_pdf_page": "😕 Couldn't verify a direct PDF link for this result.\n🌐 But you'll find the book and its file here: {url}"
+  "err_no_pdf_page": "😕 Couldn't verify a direct PDF link for this result.\n🌐 But you'll find the book and its file here: {url}",
+  "join_channel": "📢 One thing before I search: join our channel 🎁\n• Tap «🎁 Join the channel» below\n• After joining, tap «✅ Check»\nand your search continues automatically.",
+  "sub_join_btn": "🎁 Join the channel",
+  "sub_check_btn": "✅ Check subscription",
+  "join_ok": "✅ Verified — welcome to Maktabati! 🎉\nSend any book title and I'll start searching."
 }

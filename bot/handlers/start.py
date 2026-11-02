@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes
 
 import bot.keyboards as keyboards
+from bot.handlers.subscribe import check_and_cache, join_keyboard
 from db import repo
 from i18n.detect import from_telegram_locale
 from i18n.i18n import t
@@ -33,6 +34,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if not await repo.get_lang(db, user.id):  # first time → nudge the language menu
         await update.message.reply_text(t("en", "choose_lang"), reply_markup=keyboards.LANG_BUTTONS)
+
+    # Force-subscribe prompt right under the greeting (Step 6d)
+    if not await check_and_cache(context, user.id):
+        await update.message.reply_text(
+            t(lang, "join_channel"), reply_markup=join_keyboard(lang)
+        )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

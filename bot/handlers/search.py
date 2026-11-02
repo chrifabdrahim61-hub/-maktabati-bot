@@ -15,6 +15,9 @@ User requests baked in here:
   • «in some books there is only one source» — top-6 results, every source
     queried in parallel with an individual timeout so one slow or blocked
     source can never stall (or kill) the whole search.
+  • Step 6d force-subscribe: non-members of the channel get the join prompt
+    instead of results; after they join and tap «✅ Check» their pending
+    search resumes automatically.
 PDF delivery on tap is in handlers/download.py (Step 5/6b).
 """
 import asyncio
@@ -22,8 +25,10 @@ import logging
 from html import escape
 
 from telegram import Update
-from telegram.ext import ContextTypes, MessageHandler, filters
+from telegram.error import BadRequest
+from telegram.ext import CallbackQueryHandler, ContextTypes, MessageHandler, filters
 
+from bot.handlers.subscribe import ensure_subscribed, is_member
 from bot.keyboards import results_keyboard
 from core.nl import clean_query, search_variants
 from core.ranker import rank_results
@@ -101,18 +106,16 @@ async def run_search(cleaned: str, user_lang: str) -> tuple[list, str, bool]:
     return [], "", False
 
 
-async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user = update.effective_user
+async def do_search(context: ContextTypes.DEFAULT_TYPE, chat_id: int, user_id: int, raw: str) -> None:
+    """The full search pipeline — shared by on_text and the sub:check button."""
     db = context.bot_data["db"]
-    raw = update.message.text.strip()
-
-    # Explicit choice wins; otherwise auto-detect from the query itself
-    lang = await repo.get_lang(db, user.id) or detect_language(raw)
+    lang = await repo.get_lang(db, user_id) or detect_language(raw)
 
     # Natural-language pass: «ابي كتاب فن الحرب شكرا» → «فن الحرب»
     cleaned = clean_query(raw) or raw
 
-    status = await update.message.reply_text(t(lang, "searching", title=raw[:80]))
+    bot = context.bot
+    status = await bot.send_message(chat_id, t(lang, "searching", title=raw[:80]))
 
     ranked, used, translated_mode = await run_search(cleaned, lang)
 
@@ -145,8 +148,45 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
     logger.info(
         "User %s searched %r (cleaned %r%s) → %d ranked",
-        user.id, raw[:60], used[:60], ", translated" if translated_mode else "", len(ranked),
+        user_id, raw[:60], used[:60], ", translated" if translated_mode else "", len(ranked),
     )
 
 
+async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user = update.effective_user
+    raw = update.message.text.strip()
+
+    # Force-subscribe gate (Step 6d): non-members get the join prompt.
+    if not await ensure_subscribed(update, context):
+        context.bot_data.setdefault("sub_pending", {})[user.id] = raw
+        return
+
+    await do_search(context, update.effective_chat.id, user.id, raw)
+
+
+async def on_sub_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """«✅ Check» button after joining the channel — re-verify, resume search."""
+    query = update.callback_query
+    user = update.effective_user
+    db = context.bot_data["db"]
+    lang = await repo.get_lang(db, user.id) or "en"
+
+    if not await is_member(context.bot, user.id):
+        await query.answer(t(lang, "join_channel"), show_alert=True)
+        return
+
+    context.bot_data.setdefault("sub_ok", set()).add(user.id)
+    pending = context.bot_data.setdefault("sub_pending", {}).pop(user.id, None)
+    await query.answer()
+    try:
+        await query.edit_message_text(t(lang, "join_ok"))
+    except BadRequest:  # e.g. the message was deleted meanwhile
+        pass
+    logger.info("User %s verified subscription%s",
+                user.id, " — resuming pending search" if pending else "")
+    if pending:
+        await do_search(context, update.effective_chat.id, user.id, pending)
+
+
 text_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, on_text)
+sub_check_handler = CallbackQueryHandler(on_sub_check, pattern=r"^sub:")

@@ -10,7 +10,7 @@ from telegram.ext import Application
 import config
 from bot.handlers.download import download_pick_handler
 from bot.handlers.lang import lang_handler, lang_pick_handler
-from bot.handlers.search import text_handler
+from bot.handlers.search import sub_check_handler, text_handler
 from bot.handlers.start import help_handler, start_handler
 from db.database import close_db, init_db
 from utils.logging import setup_logging
@@ -46,7 +46,7 @@ async def post_shutdown(app: Application) -> None:
 
 def main() -> None:
     setup_logging()
-    logger.info("Starting Maktabati (Step 6b — 4 sources, natural-language search, dual links)…")
+    logger.info("Starting Maktabati (Step 6d — 4 sources, NL+cross-language search, channel gate)…")
 
     app = (
         Application.builder()
@@ -62,6 +62,7 @@ def main() -> None:
     app.add_handler(lang_handler)
     app.add_handler(lang_pick_handler)
     app.add_handler(download_pick_handler)
+    app.add_handler(sub_check_handler)
     app.add_handler(text_handler)
 
     logger.info("Bot is up — polling for updates…")

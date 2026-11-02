@@ -39,3 +39,10 @@ WELCOME_CREDITS: int = int(os.getenv("WELCOME_CREDITS", "5"))
 DAILY_REFILL: int = int(os.getenv("DAILY_REFILL", "2"))
 REFERRAL_BONUS: int = int(os.getenv("REFERRAL_BONUS", "1"))
 REFILL_PERIOD: int = int(os.getenv("REFILL_PERIOD", str(24 * 60 * 60)))  # seconds
+
+# Donations (Step 6f, user request): a small 🤍 button on every delivered
+# book message opens a Telegram Stars menu. XTR invoices need NO provider
+# token — Telegram handles the payment sheet in-chat.
+STAR_TIERS: tuple[int, ...] = tuple(
+    int(x) for x in os.getenv("STAR_TIERS", "25,50,75,100,250").split(",") if x.strip()
+)

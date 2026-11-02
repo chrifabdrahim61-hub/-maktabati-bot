@@ -26,5 +26,12 @@
   "share_btn": "📤 Share my link",
   "share_text": "📚 This Telegram bot finds any book's free PDF in seconds — Maktabati:",
   "ref_bonus": "🎁 +1 credit! {name} just started Maktabati via your link.\n💳 Balance: {n}",
-  "balance_left": "💳 Credits left: {n}"
+  "balance_left": "💳 Credits left: {n}",
+  "support_heart": "🤍",
+  "donate_menu": "🤍 Support Maktabati\n\nEvery search, every PDF — free for everyone. Your Stars keep it that way 🙏\n\nPick an amount:",
+  "donate_title": "Support Maktabati 🤍",
+  "donate_desc": "A {n} ⭐ donation — keeps Maktabati free for everyone",
+  "donate_thanks": "🤍 Thank you, {name}! Your {n} ⭐ keeps Maktabati free and growing. 🙏",
+  "donate_err": "⚠️ Couldn't open the payment — please try again in a moment.",
+  "close_btn": "✖️"
 }

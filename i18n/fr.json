@@ -26,5 +26,12 @@
   "share_btn": "📤 Partager mon lien",
   "share_text": "📚 Ce bot Telegram trouve le PDF de n'importe quel livre en quelques secondes — Maktabati :",
   "ref_bonus": "🎁 +1 crédit ! {name} vient de lancer Maktabati via ton lien.\n💳 Solde : {n}",
-  "balance_left": "💳 Crédits restants : {n}"
+  "balance_left": "💳 Crédits restants : {n}",
+  "support_heart": "🤍",
+  "donate_menu": "🤍 Soutiens Maktabati\n\nChaque recherche, chaque PDF — gratuit pour tous. Tes étoiles le font durer 🙏\n\nChoisis un montant :",
+  "donate_title": "Soutenir Maktabati 🤍",
+  "donate_desc": "Un don de {n} ⭐ — garde Maktabati gratuit pour tout le monde",
+  "donate_thanks": "🤍 Merci {name} ! Ton don de {n} ⭐ garde Maktabati gratuit et vivant. 🙏",
+  "donate_err": "⚠️ Impossible d'ouvrir le paiement — réessaie dans un instant.",
+  "close_btn": "✖️"
 }

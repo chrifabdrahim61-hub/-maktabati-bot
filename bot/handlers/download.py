@@ -9,7 +9,9 @@ User decisions stacked here:
   pdf» — the success message carries BOTH the direct PDF link and the
   book's page link;
 • a tap whose links all fail is no longer a dead end: the user gets the
-  book's page link so the PDF can still be found there.
+  book's page link so the PDF can still be found there;
+• Step 6f: both delivered messages (PDF link / source page) carry the
+  small 🤍 support button → Telegram Stars donations (handlers/support.py).
 
 core/downloader.py stays in the codebase (unused) for possible file delivery.
 """
@@ -19,6 +21,7 @@ import httpx
 from telegram import Update
 from telegram.ext import CallbackQueryHandler, ContextTypes
 
+from bot.handlers.support import heart_keyboard
 from db import repo
 from i18n.detect import detect_language
 from i18n.i18n import t
@@ -97,10 +100,15 @@ async def on_pick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             await context.bot.send_message(
                 update.effective_chat.id,
                 t(lang, "err_no_pdf_page", url=page),
+                reply_markup=heart_keyboard(lang),  # 🤍 on the source-page fallback too
                 disable_web_page_preview=True,
             )
         else:
-            await context.bot.send_message(update.effective_chat.id, t(lang, "err_no_pdf"))
+            await context.bot.send_message(
+                update.effective_chat.id,
+                t(lang, "err_no_pdf"),
+                reply_markup=heart_keyboard(lang),
+            )
         return
 
     pdf_note = t(lang, "picked_pdf", url=url)
@@ -109,6 +117,7 @@ async def on_pick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=t(lang, "picked", title=book.title[:120], source=book.source, pdf_note=pdf_note),
+        reply_markup=heart_keyboard(lang),  # 🤍 support the bot (Step 6f)
         disable_web_page_preview=True,
     )
     logger.info("User %s picked %r (%s) → verified link",

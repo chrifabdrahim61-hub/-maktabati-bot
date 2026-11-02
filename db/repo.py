@@ -109,3 +109,12 @@ async def reward_referral(db, referrer_id: int, invitee_id: int) -> int | None:
     if await get_credit_row(db, referrer_id) is None:
         return None
     return await add_credits(db, referrer_id, config.REFERRAL_BONUS)
+
+
+async def log_donation(db, user_id: int, amount: int, payload: str = "") -> None:
+    """One row per successful Stars payment (Step 6f) — for future /stats."""
+    await db.execute(
+        "INSERT INTO donations (user_id, amount, payload) VALUES (?, ?, ?)",
+        (user_id, amount, payload),
+    )
+    await db.commit()

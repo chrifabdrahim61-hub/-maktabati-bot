@@ -17,6 +17,14 @@ CREATE TABLE IF NOT EXISTS users (
     last_refill INTEGER NOT NULL DEFAULT 0,
     referred_by INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS donations (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id    INTEGER,
+    amount     INTEGER,
+    payload    TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
 """
 
 # Step 6e: databases created before the credits system only have the first
